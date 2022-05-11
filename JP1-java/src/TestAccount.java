@@ -3,7 +3,7 @@ public class TestAccount {
             Account acc =new Account();
             acc.input();
             acc.depositAndWithdraw();
-            acc.display();
+            System.out.println(acc);
         }
 
     }

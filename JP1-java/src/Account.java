@@ -1,12 +1,10 @@
 import java.util.Scanner;
 
 public class Account {
-    public Object accountName;
     private String customerCode;
     private String customerName;
     private int accNumber;
-    private long amount;
-
+    private long amount ;
     public Account() {
 
     }
@@ -37,40 +35,34 @@ public class Account {
         long money;
         int type;
         Scanner ip = new Scanner(System.in);
-        System.out.println("Choose Withdraw(1) or deposit(2) :");
+        System.out.println("Withdraw(1) or Deposit(2) :");
         type = ip.nextInt();
         System.out.println("Enter money: ");
         money = ip.nextLong();
-        if (type == 2) {
-            System.out.println(" deposit is : " + money);
-            amount = money + amount;
-            System.out.println("Your amount: " + amount);
+        if (type == 0) {
+        System.out.println(" Deposit is : " + money);
+            System.out.println("Success");
+        amount = money + amount;
+        System.out.println("Your amount: " + amount);
         }
 
         if (type == 1) {
             if (money > amount) {
-                System.out.println("error");
+                System.out.println("Non-sufficient funds");
             } else if (money <= amount) {
                 System.out.println("withdraw is :  " + money );
+                System.out.println("Success");
                 amount = amount - money;
                 System.out.println("Amount: " + amount);
             }
         }
 
     }
-    public void display(){
-        System.out.println("Your account number is :"+customerCode);
-        System.out.println("Your account name is :"+customerName);
-
+    {
+        System.out.println("BANK");
     }
     @Override
     public String toString() {
-        return "Account1{" +
-                "accountName=" + accountName +
-                ", customerCode='" + customerCode + '\'' +
-                ", customerName='" + customerName + '\'' +
-                ", accNumber=" + accNumber +
-                ", amount=" + amount +
-                '}';
+        return "Account1{ customerCode='" + customerCode + '\'' + ", customerName='" + customerName + '\'' + ", accNumber=" + accNumber + ", amount=" + amount + '}';
     }
 }
