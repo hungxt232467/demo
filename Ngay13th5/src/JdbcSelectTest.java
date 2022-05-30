@@ -1,11 +1,12 @@
 import java.sql.*;
+
 public class JdbcSelectTest {
     public static void main(String[] args){
 
         try(
                 Connection conn = DriverManager.getConnection(
                         "jdbc:mysql://localhost:3306/ebookshop","root","");
-                Statement stmt = conn.createStatement();
+                Statement stmt = conn.createStatement()
         ){
             String strSelect = "select * from books";
             System.out.println("The SQL Statement is: "+ strSelect+ "\n");
