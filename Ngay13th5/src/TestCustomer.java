@@ -2,6 +2,8 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class TestCustomer {
+    private static Statement statement;
+
     public static void main(String[] args) throws SQLException {
         try(
                 Connection conn = DriverManager.getConnection(
@@ -37,7 +39,7 @@ public class TestCustomer {
             System.out.println("CompanyName is: " + companyName);
             String findbyCpName ="SELECT * FROM Customers where CompanyName like '%"+companyName+"'";
             System.out.println(findbyCpName);
-            String query[] ={findbyID,
+            String query []={findbyID,
                     findbyCpName};
             for(String q : query){
                 ResultSet resultSet1 = statement.executeQuery(q);
@@ -78,7 +80,7 @@ public class TestCustomer {
             System.out.println("productName is: " + productNameF);
             String findbyProductName ="SELECT * FROM Product where productName like '%"+productNameF+"'";
             System.out.println(findbyProductName);
-            String query[] ={findbyProductID,
+            String query [] ={findbyProductID,
                     findbyProductName};
             for(String q : query){
                 ResultSet resultSet3 = statement.executeQuery(q);
