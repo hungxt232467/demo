@@ -1,3 +1,9 @@
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class ExamJP2 {
     public static void main(String[] args) throws SQLException {
         String sqlDelete = "delete from Movie where movieID = ?";
@@ -7,111 +13,116 @@ public class ExamJP2 {
         try (
                 Connection conn = DriverManager.getConnection(
                         "jdbc:mysql://localhost:3306/Exam", "root", "");
+                PreparedStatement preparedStatement1 = conn.prepareStatement("INSERT INTO Movie VALUES(?,?, ?, ?, ?)");
+                PreparedStatement preparedStatement2 = conn.prepareStatement("select * from Movie");
+                PreparedStatement preparedStatement3 = conn.prepareStatement("delete from Movie where name = ?");
+                PreparedStatement preparedStatement4 = conn.prepareStatement("update Movie set id = ? where name = ?");
                 Statement stmt = conn.createStatement();
 
         ) {
             //delete
-//            Scanner scanner = new Scanner(System.in);
-//            System.out.println("Enter id to delete: ");
-//            String id = scanner.nextLine();
-//            System.out.println("id is: " + id);
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter id colum to delete: ");
+            String idDelete = scanner.next();
+            System.out.println("id to delete is: " + idDelete);
+            System.out.println();
 //
-//            String sqlDelete = "delete from Movie where id + ";
-//            System.out.println("The SQL statement is: " + sqlDelete + "\n");
-//            int countDeleted = stmt.executeUpdate(sqlDelete);
-//            System.out.println(countDeleted + " record deleted.\n");
-            //insert
-//            Scanner scanner1 = new Scanner(System.in);
-//                 System.out.println("Enter findID  to insert: ");
-//                 String FindID = scanner1.nextLine();
-//                  System.out.println("FindID is: " + FindID);
-//            Scanner scanner2 = new Scanner(System.in);
-//            System.out.println("Enter FindName insert: ");
-//            String FindName = scanner2.nextLine();
-//            System.out.println("FindName is: " + FindName);
-//
-//            Scanner scanner3 = new Scanner(System.in);
-//            System.out.println("Enter FindTime  to insert: ");
-//            String FindTime = scanner3.nextLine();
-//            System.out.println("FindTime is: " + FindTime);
-//
-//            Scanner scanner4 = new Scanner(System.in);
-//            System.out.println("Enter author insert: ");
-//            String FindAuthor = scanner4.nextLine();
-//            System.out.println("Author is: " + FindAuthor);
-//
-//            Scanner scanner5 = new Scanner(System.in);
-//            System.out.println("Enter ratings insert: ");
-//            String FindRatings = scanner5.nextLine();
-//            System.out.println("Ratings is: " + FindRatings);
-//
-//            String sqlInsert = "insert into Movie value('"+FindID+"'"
-//                    +","+"'"+FindName+"'"
-//                    +","+FindTime
-//                    +","+"'"+FindAuthor+"'"
-//                    +","+"'"+FindRatings+"')";
-//            System.out.println("The SQL statement is: "+ sqlInsert +"\n");
-//            int countInserted = stmt.executeUpdate(sqlInsert);
-//            System.out.println(countInserted+" record insert");
-            //update
-//            Scanner scanner6 = new Scanner(System.in);
-//            System.out.println("Enter ID  to update: ");
-//            String ID = scanner6.nextLine();
-//            System.out.println("ID is: " + ID);
-//            Scanner scanner7 = new Scanner(System.in);
-//            System.out.println("Enter Name updated: ");
-//            String Name = scanner7.nextLine();
-//            System.out.println("Name is: " + Name);
-//            String sqlUpdate = "UPDATE Movie " +
-//                    "SET Name='" + Name + "'" +
-//                    "WHERE ID='" + ID + "'" + ";";
-//            System.out.println("The SQL preparedStatement is: " + sqlUpdate + "\n");
-//            PreparedStatement preparedStatement = conn.prepareStatement(sqlUpdate);
-//            int countUpdated = preparedStatement.executeUpdate(sqlUpdate);
-//            System.out.println(countUpdated + " record update");
-            //search
-            Scanner scanner8 = new Scanner(System.in);
-            System.out.println("Enter ID: ");
-            String ID = scanner8.nextLine();
-            System.out.println("StudentID is: " + ID);
-            String findbyID = "SELECT * FROM Movie where ID like '%" + ID + "'";
-            System.out.println(findbyID);
-
-            Scanner scanner9 = new Scanner(System.in);
-            System.out.println("Enter Name: ");
-            String Name = scanner9.nextLine();
-            System.out.println("Name is: " + Name);
-            String findbyName = "SELECT * FROM Movie where studentName like '%" + Name + "'";
-            System.out.println(findbyName);
-            String query[] = {findbyID,
-                    findbyName};
-            for (String q : query) {
-                ResultSet resultSet1 = stmt.executeQuery(q);
-                System.out.println("Corresponding searched data at column: " + q + ":");
-            }
-            while (resuSet1.next()) {
-                int id = resultSet1.getInt("id");
-                String name = resultSet1.getString("name");
-                int time = resultSet1.getInt("time");
-                String author = resultSet1.getString("author");
-                int ratings = resultSet1.getInt("ratings");
-                System.out.println("Movie To Search: " + id + ", " + name + ", " + time + ", " + author + ", " + ratings);
+            PreparedStatement.setString(1,idDelete);
+            int rowDelete = PreparedStatement.executeUpdate();
+            System.out.println(rowDelete+" successfully deleted");
+            ResultSet resultset = preparedStatement3.executeQuery();
+            while (resultset.next()){
+                String ID = resultset.getString("ID");
+                String Name = resultset.getString("Name");
+                String Time = resultset.getString("Time");
+                String Author = resultset.getString("Author");
+                String Ratings = resultset.getString("Ratings");
+                System.out.println("Movie:"+ID + ", " + Name + ", " + Time + ", " + Author + ", " + Ratings);
             }
             System.out.println();
-            String strSelect = "select * from Movie";
-            System.out.println("The SQL statement is: " + strSelect + "\n");
-            ResultSet resultSet = stmt.executeQuery(strSelect);
-            while (resultSet.next()) {
-                System.out.println(resultSet.getString("ID") + ", "
-                        + resultSet.getString("Name") + ", "
-                        + resultSet.getInt("Time") + ", "
-                        + resultSet.getInt("Author") + ", "
-                        + resultSet.getInt("Ratings") + ", "
-                );
+
+            //insert
+            Scanner scanner1 = new Scanner(System.in);
+            System.out.println("Enter ID to Insert: ");
+            String id = scanner1.next();
+            System.out.println("ID to Insert is: " + id);
+            System.out.println();
+//
+            Scanner scanner2 = new Scanner(System.in);
+            System.out.println("Enter Name to Insert: ");
+            String name = scanner1.next();
+            System.out.println("Name to Insert is: " + name);
+            System.out.println();
+//
+            Scanner scanner3 = new Scanner(System.in);
+            System.out.println("Enter Time to Insert: ");
+            String time = scanner2.next();
+            System.out.println("time to Insert is: " + time);
+            System.out.println();
+//
+            Scanner scanner4 = new Scanner(System.in);
+            System.out.println("Enter Author to Insert: ");
+            String author = scanner4.next();
+            System.out.println("movieDirector to Insert is: " + author);
+            System.out.println();
+////
+            Scanner scanner5 = new Scanner(System.in);
+            System.out.println("Enter ratings to Insert: ");
+            int ratings = scanner5.nextInt();
+            System.out.println("ratings to Insert is: " + ratings);
+            System.out.println();
+//
+            preparedStatement1.setString(1,id);
+            preparedStatement1.setString(2,name);
+            preparedStatement1.setString(3, time);
+            preparedStatement1.setString(4,author);
+            preparedStatement1.setInt(5,ratings);
+            int rowInsert = preparedStatement1.executeUpdate();
+            System.out.println(rowInsert+" Successfully Insert");
+            ResultSet resultSet = preparedStatement2.executeQuery();
+            while (resultSet.next()){
+                String MovieID = resultSet.getString("MovieID");
+                String MovieName = resultSet.getString("MovieName");
+                String MovieTime = resultset.getString("MovieTime");
+                String MovieAuthor = resultSet.getString("MovieAuthor");
+                String MovieRatings = resultSet.getString("MovieRatings");
+                System.out.println("Movie:"+MovieID + ", " + MovieName + ", " + MovieTime + ", " + MovieAuthor + ", " + MovieRatings);
             }
-        }catch (SQLException ex) {
+            System.out.println();
+
+//          Search
+            Scanner scanner6 = new Scanner(System.in);
+            System.out.println("Enter Movie Information You Need To Find: ");
+            String findMovie = scanner6.next();
+            System.out.println("Enter Movie Information You Need to Find: " + findMovie);
+            System.out.println();
+////
+            String findbyID = "SELECT * FROM Movie where ID like '%"+findMovie+"%'";
+            String findbyName = "SELECT * FROM Movie where Name like '%"+findMovie+"%'";
+            String findbyTime = "SELECT * FROM Movie where Time like '%"+findMovie+"%'";
+            String findbyAuthor = "SELECT * FROM Movie where Author like '%"+findMovie+"%'";
+            String findbyRatings = "SELECT * FROM Movie where Ratings like '%"+findMovie+"%'";
+            String query[] ={findbyID,
+                    findbyName,findbyTime
+                    ,findbyAuthor,findbyRatings};
+            for(String q : query){
+////
+                ResultSet resultSet1 = stmt.executeQuery(q);
+                System.out.println("Movies In Table According To The Information You Request: "+q+":");
+////
+                while (resultSet1.next()) {
+                    String movieID = resultSet1.getString("movieID");
+                    String movieName = resultSet1.getString("movieName");
+                    String movieTime = resultSet1.getString("movieTime");
+                    String movieAuthor = resultSet1.getString("movieAuthor");
+                    int movieRatings = resultSet1.getInt("movieRatings");
+                    System.out.println("Movie to search:"
+                            +movieID + ", " + movieName + ", " + movieTime
+                            + ", " + movieAuthor + ", " + movieRatings);
+                }
+                System.out.println();
+            }
+        } catch (SQLException | ParseException ex) {
             ex.printStackTrace();
         }
     }
-}
-
